@@ -1,0 +1,8 @@
+shamimrana.me {
+    reverse_proxy nextjs:3000
+    encode gzip
+}
+
+www.shamimrana.me {
+    redir https://shamimrana.me{uri}
+}

@@ -3,20 +3,31 @@ version: '3.8'
 services:
   nextjs:
     image: shamimrana2006/nextjs-app:latest
-    ports:
-      - "5485:3000"
     environment:
       - NODE_ENV=production
     restart: unless-stopped
+    networks:
+      - app-network
 
+  caddy:
+    image: caddy:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+    networks:
+      - app-network
 
+networks:
+  app-network:
+    driver: bridge
 
-# services:
-#   nextjs:
-#     build: .
-#     image: shamimrana2006/nextjs-app:latest
-#     ports:
-#       - "3000:3000"
-#     environment:
+volumes:
+  caddy_data:
+  caddy_config:
 #       - NODE_ENV=production
 #     restart: unless-stopped

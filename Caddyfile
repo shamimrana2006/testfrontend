@@ -1,5 +1,14 @@
+api.shamimrana.me {
+    reverse_proxy app:5090 {
+      header_up X-Real-IP {remote_host}
+      header_up X-Forwarded-For {remote_host}
+      header_up X-Forwarded-Proto {scheme}
+      header_up Host {host}
+    }
+}
+
 shamimrana.me {
-  reverse_proxy nextjs:3000 {
+  reverse_proxy nextjs:5485 {
     header_up X-Real-IP {remote_host}
     header_up X-Forwarded-For {remote_host}
     header_up X-Forwarded-Proto {scheme}

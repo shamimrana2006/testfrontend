@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  nextjs:
+    image: shamimrana2006/nextjs-app:latest
+    ports:
+      - "5485:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+
+
+# services:
+#   nextjs:
+#     build: .
+#     image: shamimrana2006/nextjs-app:latest
+#     ports:
+#       - "3000:3000"
+#     environment:
+#       - NODE_ENV=production
+#     restart: unless-stopped

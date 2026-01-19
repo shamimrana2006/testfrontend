@@ -9,6 +9,22 @@ services:
       - NODE_ENV=production
     restart: unless-stopped
 
+  caddy:
+    image: caddy:2-alpine
+    container_name: asdfg_caddy
+    restart: always
+    profiles:
+      - prod
+    ports:
+      - '80:80'
+      - '443:443'
+      - '443:443/udp'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - nextjs
 
 
 # services:

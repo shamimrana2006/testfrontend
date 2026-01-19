@@ -1,8 +1,8 @@
 shamimrana.me {
-    reverse_proxy nextjs:3000
-    encode gzip
-}
-
-www.shamimrana.me {
-    redir https://shamimrana.me{uri}
+  reverse_proxy nextjs:5485 {
+    header_up X-Real-IP {remote_host}
+    header_up X-Forwarded-For {remote_host}
+    header_up X-Forwarded-Proto {scheme}
+    header_up Host {host}
+  }
 }

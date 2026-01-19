@@ -12,6 +12,27 @@ services:
     networks:
       - app-network
 
+  caddy:
+    image: caddy:2-alpine
+    container_name: caddy_server
+    restart: always
+    ports:
+      - '80:80'
+      - '443:443'
+      - '443:443/udp'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - nextjs
+    networks:
+      - app-network
+
 networks:
   app-network:
     external: true
+
+volumes:
+  caddy_data:
+  caddy_config:

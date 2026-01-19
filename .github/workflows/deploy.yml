@@ -63,7 +63,7 @@ jobs:
           source: "docker-compose.yml,Caddyfile"
           target: "/home/${{ secrets.EC2_USER }}/nextjs-app"
 
-      - name: Deploy via SSH
+      - name: Deploy via SSH 
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}

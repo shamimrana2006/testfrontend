@@ -3,15 +3,18 @@ version: '3.8'
 services:
   nextjs:
     image: shamimrana2006/nextjs-app:latest
+    container_name: nextjs_app
     ports:
-      - "5485:3000"
+      - "3000:3000"
     environment:
       - NODE_ENV=production
     restart: unless-stopped
+    networks:
+      - app-network
 
   caddy:
     image: caddy:2-alpine
-    container_name: asdfg_caddy
+    container_name: caddy_server
     restart: always
     profiles:
       - prod
@@ -25,12 +28,23 @@ services:
       - caddy_config:/config
     depends_on:
       - nextjs
+    networks:
+      - app-network
 
+networks:
+  app-network:
+    driver: bridge
 
+volumes:
+  caddy_data:
+  caddy_config:
+
+# Alternative: Build from source
 # services:
 #   nextjs:
 #     build: .
 #     image: shamimrana2006/nextjs-app:latest
+#     container_name: nextjs_app
 #     ports:
 #       - "3000:3000"
 #     environment:

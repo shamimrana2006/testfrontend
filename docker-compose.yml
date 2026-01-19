@@ -10,7 +10,7 @@ services:
       - NODE_ENV=production
     restart: unless-stopped
     networks:
-      - app-network
+      - app-network-frontend
 
   caddy:
     image: caddy:2-alpine
@@ -27,10 +27,10 @@ services:
     depends_on:
       - nextjs
     networks:
-      - app-network
+      - app-network-frontend
 
 networks:
-  app-network:
+  app-network-frontend:
     external: true
 
 volumes:

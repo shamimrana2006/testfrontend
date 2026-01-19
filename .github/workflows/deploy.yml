@@ -81,13 +81,14 @@ jobs:
             # Start containers in detached mode
             sudo docker compose up -d
             
-            # Update Caddyfile in backend directory and reload Caddy
+            # Update Caddyfile in backend directory and reload existing Caddy
             sudo cp Caddyfile /home/${{ secrets.EC2_USER }}/app/Caddyfile
             cd /home/${{ secrets.EC2_USER }}/app
-            sudo docker exec caddy_server caddy reload --config /etc/caddy/Caddyfile
+            sudo docker exec velvet_iron_caddy caddy reload --config /etc/caddy/Caddyfile
             
             # Show running containers
             sudo docker ps --filter "name=nextjs"
+            sudo docker ps --filter "name=caddy"
             
             # Clean up unused images
             sudo docker system prune -f

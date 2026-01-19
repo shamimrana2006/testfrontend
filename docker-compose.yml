@@ -10,29 +10,8 @@ services:
       - NODE_ENV=production
     restart: unless-stopped
     networks:
-      - app-network-frontend
-
-  caddy:
-    image: caddy:2-alpine
-    container_name: caddy_server
-    restart: always
-    ports:
-      - '80:80'
-      - '443:443'
-      - '443:443/udp'
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
-    depends_on:
-      - nextjs
-    networks:
-      - app-network-frontend
+      - app-network
 
 networks:
-  app-network-frontend:
-    driver: bridge
-
-volumes:
-  caddy_data:
-  caddy_config:
+  app-network:
+    external: true

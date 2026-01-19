@@ -3,19 +3,15 @@ version: '3.8'
 services:
   nextjs:
     image: shamimrana2006/nextjs-app:latest
+    container_name: nextjs_app
     ports:
-      - "5485:5485"
+      - "5485:3000"
     environment:
       - NODE_ENV=production
     restart: unless-stopped
+    networks:
+      - app-network
 
-
-# services:
-#   nextjs:
-#     build: .
-#     image: shamimrana2006/nextjs-app:latest
-#     ports:
-#       - "3000:3000"
-#     environment:
-#       - NODE_ENV=production
-#     restart: unless-stopped
+networks:
+  app-network:
+    external: true

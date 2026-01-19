@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
    
-    "gitall": "git add . && git commit -m 'update' && git push"
+    "git": "git add . && git commit -m 'update' && git push"
   },
   "dependencies": {
     "next": "16.1.3",

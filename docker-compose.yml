@@ -2,16 +2,21 @@ version: '3.8'
 
 services:
   nextjs:
-    image: shamimrana2006/nextjs-app:latest
-    container_name: nextjs_app
+  # docker build -t shamimrana2006/frontend .
+    image: shamimrana2006/frontend
+    container_name: nextjs-app
     ports:
-      - "5485:3000"
+      - "5000:3000"
     environment:
       - NODE_ENV=production
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
     restart: unless-stopped
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    external: true
+    # Uncomment if you need to add environment variables
+    # env_file:
+    #   - .env.production
+    # Uncomment if you need volumes for development
+    # volumes:
+    #   - .:/app
+    #   - /app/node_modules
+    #   - /app/.next

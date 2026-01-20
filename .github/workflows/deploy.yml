@@ -44,7 +44,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/nextjs-app:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/frontend:latest
 
   deploy:
     name: Deploy to EC2
@@ -54,15 +54,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Copy files to EC2
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "docker-compose.yml,Caddyfile"
-          target: "/home/${{ secrets.EC2_USER }}/nextjs-app"
-
       - name: Deploy via SSH 
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -70,25 +61,16 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/${{ secrets.EC2_USER }}/nextjs-app
+            cd /home/${{ secrets.EC2_USER }}/
             
             # Pull the latest image
-            sudo docker compose pull
+            sudo docker compose --profile prod pull
             
             # Stop and remove existing containers
-            sudo docker compose down --remove-orphans
+            sudo docker compose --profile prod down --remove-orphans
             
             # Start containers in detached mode
-            sudo docker compose up -d
-            
-            # Update Caddyfile in backend directory and reload existing Caddy
-            sudo cp Caddyfile /home/${{ secrets.EC2_USER }}/app/Caddyfile
-            cd /home/${{ secrets.EC2_USER }}/app
-            sudo docker exec velvet_iron_caddy caddy reload --config /etc/caddy/Caddyfile
-            
-            # Show running containers
-            sudo docker ps --filter "name=nextjs"
-            sudo docker ps --filter "name=caddy"
+            sudo docker compose --profile prod up -d
             
             # Clean up unused images
             sudo docker system prune -f
